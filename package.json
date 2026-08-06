@@ -6,19 +6,41 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "db:check": "tsx src/db/check.ts",
+    "db:seed": "tsx src/db/seed.ts",
+    "db:make-admin": "tsx src/db/make-admin.ts"
   },
   "dependencies": {
+    "@emotion/cache": "^11.14.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@gsap/react": "^2.1.2",
+    "@libsql/client": "^0.17.4",
+    "@mui/icons-material": "^9.3.0",
+    "@mui/material": "^9.3.0",
+    "@mui/material-nextjs": "^9.3.0",
+    "@vercel/blob": "^2.6.1",
+    "drizzle-orm": "^0.45.2",
+    "gsap": "^3.15.0",
     "next": "16.3.0",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "dotenv": "^17.4.2",
+    "drizzle-kit": "^0.31.10",
     "eslint": "^9",
     "eslint-config-next": "16.3.0",
+    "tsx": "^4.23.8",
     "typescript": "^5"
   }
 }

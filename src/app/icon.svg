@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Brand mark: ascending steps + flag on crimson, matching the site logo. -->
+  <rect width="64" height="64" rx="14" fill="#d61f30"/>
+  <path d="M10 50h14v-9H10v9z" fill="#ffffff" opacity="0.55"/>
+  <path d="M26 41h14V29H26v12z" fill="#ffffff" opacity="0.8"/>
+  <path d="M42 29h14V15H42v14z" fill="#ffffff"/>
+  <path d="M49 15V7l7 3.5L49 15z" fill="#15181d"/>
+</svg>
