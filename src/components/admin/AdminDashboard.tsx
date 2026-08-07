@@ -8,6 +8,7 @@ import Chip from "@mui/material/Chip";
 import CircularProgress from "@mui/material/CircularProgress";
 import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
+import InputAdornment from "@mui/material/InputAdornment";
 import MenuItem from "@mui/material/MenuItem";
 import Paper from "@mui/material/Paper";
 import Select from "@mui/material/Select";
@@ -16,12 +17,12 @@ import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import AttachFileRoundedIcon from "@mui/icons-material/AttachFileRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import PersonAddAltRoundedIcon from "@mui/icons-material/PersonAddAltRounded";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import type { Case, Lead, LeadStatus, PackageTier } from "@/db/schema";
-import type { Stage5Outcome } from "@/lib/caseStages";
+import { CASE_STAGES, STAGE5_INDEX, TOTAL_STAGES, type Stage5Outcome } from "@/lib/caseStages";
 import CaseStageControl from "@/components/admin/CaseStageControl";
 
 const LEAD_STATUS_OPTIONS: { value: LeadStatus; label: string }[] = [
@@ -97,29 +98,60 @@ export default function AdminDashboard({
 function LeadsPanel({ leads }: { leads: Lead[] }) {
   const router = useRouter();
   const [filter, setFilter] = useState<LeadStatus | "all">("all");
+  const [query, setQuery] = useState("");
 
-  const visible = useMemo(
-    () => (filter === "all" ? leads : leads.filter((l) => l.status === filter)),
-    [leads, filter],
-  );
+  const visible = useMemo(() => {
+    const term = query.trim().toLowerCase();
+    return leads.filter(
+      (l) =>
+        (filter === "all" || l.status === filter) &&
+        (!term ||
+          [l.fullName, l.email, l.phone, l.country, l.investmentBudget].some((v) =>
+            v?.toLowerCase().includes(term),
+          )),
+    );
+  }, [leads, filter, query]);
+
+  const filtering = query.trim() !== "" || filter !== "all";
 
   return (
     <Stack spacing={2}>
-      <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
-        <Typography sx={{ fontSize: 13, fontWeight: 700 }}>Filter:</Typography>
+      <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5} sx={{ alignItems: { sm: "center" } }}>
+        <TextField
+          size="small"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search name, email, phone, country…"
+          sx={{ flex: 1, maxWidth: 440 }}
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchRoundedIcon sx={{ fontSize: 20, color: "text.secondary" }} />
+                </InputAdornment>
+              ),
+            },
+          }}
+        />
         <Select size="small" value={filter} onChange={(e) => setFilter(e.target.value as LeadStatus | "all")} sx={{ minWidth: 150, fontSize: 13 }}>
           <MenuItem value="all" sx={{ fontSize: 13 }}>All statuses</MenuItem>
           {LEAD_STATUS_OPTIONS.map((o) => (
             <MenuItem key={o.value} value={o.value} sx={{ fontSize: 13 }}>{o.label}</MenuItem>
           ))}
         </Select>
+        {filtering && (
+          <Typography sx={{ fontSize: 13, color: "text.secondary", whiteSpace: "nowrap" }}>
+            {visible.length} of {leads.length}
+          </Typography>
+        )}
       </Stack>
 
       {visible.length === 0 && (
         <Paper sx={{ p: 4, borderRadius: 4, textAlign: "center" }}>
           <Typography sx={{ color: "text.secondary" }}>
-            No leads {filter === "all" ? "yet" : `with status "${filter}"`}. New Free CV Check
-            submissions appear here.
+            {filtering
+              ? "No leads match your search or filter."
+              : "No leads yet. New Free CV Check submissions appear here."}
           </Typography>
         </Paper>
       )}
@@ -170,7 +202,7 @@ function LeadCard({ lead, onChanged }: { lead: Lead; onChanged: () => void }) {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data?.ok) throw new Error();
-      setMsg(`Case opened: ${data.trackingRef}`);
+      setMsg(`Case opened: ${data.trackingRef}${data.emailed ? " (client emailed)" : ""}`);
       setStatus("converted");
       onChanged();
     } catch {
@@ -304,93 +336,89 @@ function LeadCard({ lead, onChanged }: { lead: Lead; onChanged: () => void }) {
 
 /* -------------------------------------------------------------------- cases */
 
-function CasesPanel({ cases }: { cases: Case[] }) {
-  const router = useRouter();
-  const [showNew, setShowNew] = useState(false);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [pkg, setPkg] = useState<PackageTier | "">("");
-  const [busy, setBusy] = useState(false);
-  const [msg, setMsg] = useState<string | null>(null);
+type CaseStageFilter = "all" | "complete" | "failed" | number;
 
-  async function createCase() {
-    setBusy(true);
-    setMsg(null);
-    try {
-      const res = await fetch("/api/admin/cases", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ clientName: name, email, phone, packageTier: pkg || undefined }),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok || !data?.ok) throw new Error(data?.error);
-      setMsg(`Case opened: ${data.trackingRef}`);
-      setName("");
-      setEmail("");
-      setPhone("");
-      setPkg("");
-      router.refresh();
-    } catch (err) {
-      setMsg(err instanceof Error && err.message ? err.message : "Couldn't create the case.");
-    } finally {
-      setBusy(false);
-    }
-  }
+function CasesPanel({ cases }: { cases: Case[] }) {
+  const [stageFilter, setStageFilter] = useState<CaseStageFilter>("all");
+  const [query, setQuery] = useState("");
+
+  const visible = useMemo(() => {
+    const term = query.trim().toLowerCase();
+    return cases.filter((c) => {
+      const failed = c.stage5Outcome === "fail" && c.caseStage >= STAGE5_INDEX + 1;
+      const complete = c.caseStage >= TOTAL_STAGES && !failed;
+      const stageOk =
+        stageFilter === "all"
+          ? true
+          : stageFilter === "failed"
+            ? failed
+            : stageFilter === "complete"
+              ? complete
+              : c.caseStage === stageFilter && !failed;
+      return (
+        stageOk &&
+        (!term ||
+          [c.clientName, c.email, c.phone, c.trackingRef].some((v) =>
+            v?.toLowerCase().includes(term),
+          ))
+      );
+    });
+  }, [cases, stageFilter, query]);
+
+  const filtering = query.trim() !== "" || stageFilter !== "all";
 
   return (
     <Stack spacing={2}>
-      <Box>
-        <Button size="small" variant="outlined" startIcon={<AddRoundedIcon />} onClick={() => setShowNew((v) => !v)}>
-          {showNew ? "Hide new-case form" : "New case (manual)"}
-        </Button>
-      </Box>
+      <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5} sx={{ alignItems: { sm: "center" } }}>
+        <TextField
+          size="small"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search name, email, phone, tracking number…"
+          sx={{ flex: 1, maxWidth: 440 }}
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchRoundedIcon sx={{ fontSize: 20, color: "text.secondary" }} />
+                </InputAdornment>
+              ),
+            },
+          }}
+        />
+        <Select
+          size="small"
+          value={stageFilter}
+          onChange={(e) => setStageFilter(e.target.value as CaseStageFilter)}
+          sx={{ minWidth: 250, fontSize: 13 }}
+        >
+          <MenuItem value="all" sx={{ fontSize: 13 }}>All stages</MenuItem>
+          {CASE_STAGES.map((s, i) => (
+            <MenuItem key={s.key} value={i} sx={{ fontSize: 13 }}>
+              {s.code} · {s.awaitingLabel}
+            </MenuItem>
+          ))}
+          <MenuItem value="complete" sx={{ fontSize: 13 }}>Journey complete</MenuItem>
+          <MenuItem value="failed" sx={{ fontSize: 13 }}>Initial assessment unsuccessful</MenuItem>
+        </Select>
+        {filtering && (
+          <Typography sx={{ fontSize: 13, color: "text.secondary", whiteSpace: "nowrap" }}>
+            {visible.length} of {cases.length}
+          </Typography>
+        )}
+      </Stack>
 
-      {showNew && (
-        <Paper sx={{ p: 2.5, borderRadius: 4 }}>
-          <Typography sx={{ fontWeight: 800, mb: 1.5 }}>Open a case manually</Typography>
-          <Stack direction={{ xs: "column", md: "row" }} spacing={1.5}>
-            <TextField size="small" label="Client name" value={name} onChange={(e) => setName(e.target.value)} fullWidth />
-            <TextField size="small" label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} fullWidth />
-            <TextField size="small" label="Phone (optional)" value={phone} onChange={(e) => setPhone(e.target.value)} fullWidth />
-            <Select
-              size="small"
-              value={pkg}
-              onChange={(e) => setPkg(e.target.value as PackageTier | "")}
-              displayEmpty
-              sx={{ minWidth: 160, fontSize: 13 }}
-            >
-              {PACKAGE_OPTIONS.map((o) => (
-                <MenuItem key={o.value} value={o.value} sx={{ fontSize: 13 }}>{o.label}</MenuItem>
-              ))}
-            </Select>
-            <Button
-              variant="contained"
-              disabled={busy || !name || !email}
-              onClick={createCase}
-              startIcon={busy ? <CircularProgress size={14} color="inherit" /> : <AddRoundedIcon />}
-              sx={{ flexShrink: 0 }}
-            >
-              Create
-            </Button>
-          </Stack>
-          {msg && (
-            <Typography sx={{ fontSize: 12.5, fontWeight: 700, mt: 1, color: msg.startsWith("Case opened") ? "success.main" : "error.main" }}>
-              {msg}
-            </Typography>
-          )}
-        </Paper>
-      )}
-
-      {cases.length === 0 && (
+      {visible.length === 0 && (
         <Paper sx={{ p: 4, borderRadius: 4, textAlign: "center" }}>
           <Typography sx={{ color: "text.secondary" }}>
-            No cases yet. Convert a lead, or open a case manually.
+            {filtering
+              ? "No cases match your search or filter."
+              : "No cases yet. Open one from a lead in the CV Leads tab."}
           </Typography>
         </Paper>
       )}
 
-      {cases.map((c) => (
+      {visible.map((c) => (
         <Paper key={c.id} sx={{ p: 2.5, borderRadius: 4 }}>
           <Stack direction={{ xs: "column", md: "row" }} spacing={1} sx={{ justifyContent: "space-between", alignItems: { md: "center" } }}>
             <Box>

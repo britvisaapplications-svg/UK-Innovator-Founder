@@ -213,9 +213,19 @@ export default function Hero() {
             ))}
           </Box>
 
-          {/* Lead form, above the fold on desktop, right after copy on mobile */}
-          <Box sx={{ gridArea: "form" }}>
-            <Box className="js-form">
+          {/* Lead form, above the fold on desktop, right after copy on mobile.
+              The column stretches and centers its content, so the compact
+              thank-you card sits mid-column instead of hugging the top. */}
+          <Box sx={{ gridArea: "form", alignSelf: { md: "stretch" }, display: "flex" }}>
+            <Box
+              className="js-form"
+              sx={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: { md: "center" },
+              }}
+            >
               <LeadForm />
             </Box>
           </Box>

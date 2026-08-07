@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { put } from "@vercel/blob";
 import { createLead } from "@/db/queries";
+import { leadAdminEmail, leadConfirmationEmail, sendEmail } from "@/lib/email";
 
 /**
  * POST /api/leads, the Free CV & Profile Check form.
@@ -45,6 +46,7 @@ export async function POST(req: NextRequest) {
   const file = form.get("cv");
   let cvUrl: string | null = null;
   let cvFileName: string | null = null;
+  let cvBuffer: Buffer | null = null;
 
   if (file instanceof File && file.size > 0) {
     if (file.size > MAX_BYTES) {
@@ -57,35 +59,37 @@ export async function POST(req: NextRequest) {
       );
     }
     cvFileName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_").slice(-80);
+    cvBuffer = Buffer.from(await file.arrayBuffer());
 
     if (process.env.BLOB_READ_WRITE_TOKEN) {
       try {
-        const blob = await put(`cvs/${Date.now()}-${cvFileName}`, file, {
+        const blob = await put(`cvs/${Date.now()}-${cvFileName}`, cvBuffer, {
           access: "private",
           addRandomSuffix: true,
         });
         cvUrl = blob.url;
       } catch (err) {
         console.error("CV upload failed:", err);
-        // Keep the lead, the team can request the CV again by email.
+        // Keep the lead, the CV still reaches the admin as an attachment.
       }
     } else {
       console.warn("BLOB_READ_WRITE_TOKEN not set, lead saved without CV file.");
     }
   }
 
+  const details = {
+    fullName: str(form.get("fullName")),
+    phone: str(form.get("phone"), 60),
+    email,
+    country: str(form.get("country"), 80),
+    hasIdea: str(form.get("hasIdea"), 5),
+    investmentBudget: str(form.get("investmentBudget"), 40),
+  };
+
+  let leadId: string;
   try {
-    const lead = await createLead({
-      fullName: str(form.get("fullName")),
-      phone: str(form.get("phone"), 60),
-      email,
-      country: str(form.get("country"), 80),
-      hasIdea: str(form.get("hasIdea"), 5),
-      investmentBudget: str(form.get("investmentBudget"), 40),
-      cvUrl,
-      cvFileName,
-    });
-    return NextResponse.json({ ok: true, id: lead.id });
+    const lead = await createLead({ ...details, cvUrl, cvFileName });
+    leadId = lead.id;
   } catch (err) {
     console.error("Lead insert failed:", err);
     return NextResponse.json(
@@ -93,4 +97,34 @@ export async function POST(req: NextRequest) {
       { status: 500 },
     );
   }
+
+  // Notifications: admin gets the full form + CV attached, the applicant a
+  // confirmation. Failures are logged but never block the submission.
+  const emailInput = { ...details, cvFileName };
+  const sends: Promise<unknown>[] = [];
+
+  const adminTo = process.env.ADMIN_EMAIL?.trim();
+  if (adminTo) {
+    const { subject, html } = leadAdminEmail(emailInput);
+    sends.push(
+      sendEmail({
+        to: adminTo,
+        subject,
+        html,
+        attachments:
+          cvBuffer && cvFileName
+            ? [{ filename: cvFileName, content: cvBuffer.toString("base64") }]
+            : undefined,
+      }),
+    );
+  }
+
+  {
+    const { subject, html } = leadConfirmationEmail(emailInput);
+    sends.push(sendEmail({ to: email, subject, html }));
+  }
+
+  await Promise.allSettled(sends);
+
+  return NextResponse.json({ ok: true, id: leadId });
 }
