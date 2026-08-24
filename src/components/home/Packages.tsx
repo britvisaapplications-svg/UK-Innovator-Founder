@@ -1,6 +1,5 @@
 "use client";
 
-import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
@@ -99,7 +98,7 @@ export default function Packages() {
         <SectionHeading
           eyebrow="Packages & fees"
           title="Choose how far we take you"
-          subtitle="All packages include unlimited revision rounds. Professional fees are always separate from Endorsing Body and Home Office fees."
+          subtitle="All packages include unlimited revisions. Professional fees are separate from Endorsing Body and Home Office fees."
         />
         <Grid container spacing={2.5} sx={{ alignItems: "stretch" }}>
           {PACKAGES.map((p, i) => (
@@ -186,21 +185,6 @@ export default function Packages() {
             </Grid>
           ))}
         </Grid>
-
-        <Reveal delay={120}>
-          <Stack spacing={1.5} sx={{ mt: 3 }}>
-            <Alert severity="success" sx={{ borderRadius: 3 }}>
-              <strong>Flexible instalments:</strong> all package fees can be paid in agreed
-              instalments, with an invoice and receipt at each stage.
-            </Alert>
-            <Alert severity="info" sx={{ borderRadius: 3 }}>
-              The exact conditions for free re-application and which third-party fees are covered
-              are defined in your service agreement before you commit. Endorsing Body fees
-              (£1,000 initial, £500 per contact-point meeting) and Home Office fees are always
-              paid directly to those organisations.
-            </Alert>
-          </Stack>
-        </Reveal>
       </Container>
     </Box>
   );

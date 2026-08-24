@@ -11,7 +11,6 @@ import WhyDifferent from "@/components/home/WhyDifferent";
 import Packages from "@/components/home/Packages";
 import AfterVisa from "@/components/home/AfterVisa";
 import Faqs from "@/components/home/Faqs";
-import FinalCta from "@/components/home/FinalCta";
 
 /**
  * Homepage, the full interactive founder journey, in the order set by the
@@ -34,7 +33,6 @@ export default function Home() {
       <Packages />
       <AfterVisa />
       <Faqs />
-      <FinalCta />
     </>
   );
 }

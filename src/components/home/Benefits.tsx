@@ -19,37 +19,37 @@ const BENEFITS = [
   {
     icon: PersonOffRoundedIcon,
     title: "No employer sponsor required",
-    desc: "The route relies on endorsement of your business proposition, not a job offer.",
+    desc: "Endorsement of your business replaces a job offer.",
   },
   {
     icon: BusinessCenterRoundedIcon,
     title: "Build and run your own UK business",
-    desc: "Establish and grow the company you found; you stay in control of the venture.",
+    desc: "You found and grow the company, and stay in control.",
   },
   {
     icon: HomeWorkRoundedIcon,
     title: "Potential ILR after 3 years",
-    desc: "Subject to settlement requirements, one of the fastest potential routes to settlement.",
+    desc: "Subject to settlement requirements at the time of application.",
   },
   {
     icon: WorkHistoryRoundedIcon,
     title: "Work alongside your business",
-    desc: "Eligible outside skilled employment is permitted alongside the business, subject to conditions.",
+    desc: "Eligible outside skilled employment is permitted, subject to conditions.",
   },
   {
     icon: FamilyRestroomRoundedIcon,
     title: "Bring eligible dependants",
-    desc: "Your eligible partner and children can apply to join you as dependants.",
+    desc: "Your eligible partner and children can apply to join you.",
   },
   {
     icon: PaymentsRoundedIcon,
     title: "No fixed £50,000 threshold",
-    desc: "There is no universal minimum investment; funding should match the needs of your venture.",
+    desc: "Funding should match what your venture actually needs.",
   },
   {
     icon: PublicRoundedIcon,
     title: "Access to the UK market",
-    desc: "Build from one of the world's leading economies, with potential national and international scale.",
+    desc: "Build from a leading economy, with room to scale internationally.",
   },
 ];
 

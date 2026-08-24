@@ -51,7 +51,7 @@ export default function SiteHeader() {
     >
       <Container>
         <Toolbar disableGutters sx={{ gap: 3, py: 0.5, minHeight: { xs: 56, md: 64 } }}>
-          <Logo size={26} showSlogan={false} />
+          <Logo size={36} showSlogan={false} />
           <Box sx={{ flex: 1 }} />
           <Stack direction="row" spacing={3} sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}>
             {links}

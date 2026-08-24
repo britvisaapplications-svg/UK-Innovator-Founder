@@ -1,35 +1,20 @@
 import type { Metadata } from "next";
-import InfoPage from "@/components/InfoPage";
+import LegalPage from "@/components/legal/LegalPage";
+import { REFUND } from "@/components/legal/refundContent";
 
-export const metadata: Metadata = { title: "Refund & Cancellation Policy" };
+export const metadata: Metadata = {
+  title: "Refund & Cancellation Policy",
+  description:
+    "The Refund & Cancellation Policy for UK Innovator Founder, operated by Shams Britvisa Lawyers Ltd, covering Innovator Founder endorsement and visa application services.",
+};
 
-const DRAFT =
-  "Draft for review: refund conditions must be finalised and approved by the firm's legal team before launch.";
-
-export default function RefundPolicyPage() {
+export default function RefundCancellationPolicyPage() {
   return (
-    <InfoPage
-      eyebrow="Legal & compliance"
+    <LegalPage
       title="Refund & Cancellation Policy"
-      draftNotice={DRAFT}
-      sections={[
-        {
-          heading: "Stage payments",
-          body: "Professional fees are payable in agreed instalments tied to stages of work, with an invoice and receipt at each stage. You only pay for the stage of work in progress.",
-        },
-        {
-          heading: "Cancellation by you",
-          body: "You may cancel at any time in writing. Fees for stages already completed, and work in progress up to the date of cancellation, remain payable. [Cooling-off terms for consumer contracts to be confirmed by the firm's legal team.]",
-        },
-        {
-          heading: "Third-party fees",
-          body: "Endorsing Body fees and Home Office fees are paid directly to those organisations and are subject to their own refund rules, they are not refundable by us.",
-        },
-        {
-          heading: "Unsuccessful applications",
-          body: "An unsuccessful endorsement application is not, by itself, grounds for a refund, outcomes rest with the Endorsing Body. Standard and Premium packages instead include a free re-application subject to the qualifying conditions in your service agreement.",
-        },
-      ]}
+      effectiveDate="25 June 2026"
+      intro="This Refund & Cancellation Policy applies to all immigration advice, administrative support and related services provided through UK Innovator Founder in connection with the Innovator Founder route. UK Innovator Founder is owned and operated by Shams Britvisa Lawyers Ltd, authorised and regulated by the Immigration Advice Authority (IAA). It should be read together with our Terms and Conditions, Client Care provisions and Privacy Notice."
+      sections={REFUND}
     />
   );
 }

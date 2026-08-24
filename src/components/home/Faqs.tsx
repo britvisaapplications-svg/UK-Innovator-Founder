@@ -82,28 +82,47 @@ const FAQS: { q: string; a: string }[] = [
   },
 ];
 
-/** §16, FAQs: all seventeen from the brief, as a single accordion column. */
+/**
+ * §16, FAQs: all seventeen from the brief. Seventeen in one column reads as
+ * a wall, so they run in two masonry-style columns on desktop, splitting
+ * down the middle rather than alternating, so reading order stays top to
+ * bottom in each column.
+ */
 export default function Faqs() {
+  const half = Math.ceil(FAQS.length / 2);
+  const columns = [FAQS.slice(0, half), FAQS.slice(half)];
+
   return (
     <Box id="faqs" component="section" sx={{ py: { xs: 6, md: 9 }, scrollMarginTop: 96 }}>
-      <Container sx={{ maxWidth: "900px !important" }}>
+      <Container>
         <SectionHeading eyebrow="FAQs" title="Frequently asked questions" />
-        <Stack spacing={1.25}>
-          {FAQS.map((f, i) => (
-            <Reveal key={f.q} delay={Math.min(i, 6) * 40}>
-              <Accordion>
-                <AccordionSummary expandIcon={<ExpandMoreRoundedIcon />}>
-                  <Typography sx={{ fontWeight: 700, fontSize: 15.5 }}>{f.q}</Typography>
-                </AccordionSummary>
-                <AccordionDetails sx={{ pt: 0 }}>
-                  <Typography sx={{ fontSize: 15, color: "text.secondary", lineHeight: 1.65 }}>
-                    {f.a}
-                  </Typography>
-                </AccordionDetails>
-              </Accordion>
-            </Reveal>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
+            columnGap: 2.5,
+            alignItems: "start",
+          }}
+        >
+          {columns.map((column, c) => (
+            <Stack key={c} spacing={1.25} sx={{ mb: { xs: 1.25, md: 0 } }}>
+              {column.map((f, i) => (
+                <Reveal key={f.q} delay={Math.min(i, 5) * 40}>
+                  <Accordion>
+                    <AccordionSummary expandIcon={<ExpandMoreRoundedIcon />}>
+                      <Typography sx={{ fontWeight: 700, fontSize: 15.5 }}>{f.q}</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails sx={{ pt: 0 }}>
+                      <Typography sx={{ fontSize: 15, color: "text.secondary", lineHeight: 1.65 }}>
+                        {f.a}
+                      </Typography>
+                    </AccordionDetails>
+                  </Accordion>
+                </Reveal>
+              ))}
+            </Stack>
           ))}
-        </Stack>
+        </Box>
       </Container>
     </Box>
   );

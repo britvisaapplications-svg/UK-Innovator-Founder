@@ -1,35 +1,20 @@
 import type { Metadata } from "next";
-import InfoPage from "@/components/InfoPage";
+import LegalPage from "@/components/legal/LegalPage";
+import { DISCLAIMER } from "@/components/legal/disclaimerContent";
 
-export const metadata: Metadata = { title: "Legal Disclaimer" };
+export const metadata: Metadata = {
+  title: "Legal Disclaimer",
+  description:
+    "The Legal Disclaimer for UK Innovator Founder, operated by Shams Britvisa Lawyers Ltd, covering the use of our website and UK immigration services.",
+};
 
-const DRAFT =
-  "Draft for review: this disclaimer must be reviewed and approved by the firm's legal team before launch.";
-
-export default function DisclaimerPage() {
+export default function LegalDisclaimerPage() {
   return (
-    <InfoPage
-      eyebrow="Legal & compliance"
+    <LegalPage
       title="Legal Disclaimer"
-      draftNotice={DRAFT}
-      sections={[
-        {
-          heading: "General information only",
-          body: "The content of this website is provided for general information about the UK Innovator Founder route and our services. It is not legal advice and should not be relied on as such. Advice on your specific circumstances is provided only under a signed service agreement.",
-        },
-        {
-          heading: "No guaranteed outcomes",
-          body: "Endorsement decisions rest with the relevant Endorsing Body; visa and settlement decisions rest with the Home Office. References to potential outcomes, including potential ILR after three years, are subject to the requirements in force at the time of application and are never guaranteed.",
-        },
-        {
-          heading: "Accuracy and changes",
-          body: "Immigration Rules, fees and Endorsing Body arrangements change. While we keep this site under review, we do not warrant that all content is current at the moment you read it. Figures such as Endorsing Body fees and processing times are indicative.",
-        },
-        {
-          heading: "Third parties",
-          body: "References to Endorsing Bodies or other third parties do not imply their endorsement of this website or our services.",
-        },
-      ]}
+      effectiveDate="25 June 2026"
+      intro="The information contained on UK Innovator Founder is provided for general informational purposes only and does not constitute legal advice. Please read this Legal Disclaimer carefully before relying on any information published on this website."
+      sections={DISCLAIMER}
     />
   );
 }

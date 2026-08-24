@@ -1,30 +1,90 @@
 import type { Metadata } from "next";
-import InfoPage from "@/components/InfoPage";
-import { IAA_NOTE, SITE_NAME } from "@/lib/site";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+import ApartmentRoundedIcon from "@mui/icons-material/ApartmentRounded";
+import GavelRoundedIcon from "@mui/icons-material/GavelRounded";
+import LightbulbRoundedIcon from "@mui/icons-material/LightbulbRounded";
+import RouteRoundedIcon from "@mui/icons-material/RouteRounded";
+import PageHero from "@/components/PageHero";
+import FeatureCards, { StatTiles } from "@/components/FeatureCards";
+import FlowStrip from "@/components/home/FlowStrip";
+import Reveal from "@/components/Reveal";
 
 export const metadata: Metadata = { title: "About Us" };
 
+const WHAT_WE_DO = [
+  {
+    icon: LightbulbRoundedIcon,
+    title: "Ideas from your CV",
+    desc: "No business idea? We suggest up to 2-3 matched to your experience.",
+  },
+  {
+    icon: RouteRoundedIcon,
+    title: "End-to-end delivery",
+    desc: "Business plan, financials, validation, endorsement and visa application.",
+  },
+  {
+    icon: GavelRoundedIcon,
+    title: "IAA-regulated",
+    desc: "Immigration work handled and supervised by regulated lawyers.",
+  },
+];
+
 export default function AboutPage() {
   return (
-    <InfoPage
-      eyebrow="Company"
-      title="About Us"
-      intro="We turn strong professional profiles into endorsable UK businesses."
-      draftNotice="Placeholder copy: final wording, entity details and history to be supplied by the client."
-      sections={[
-        {
-          heading: "What we do",
-          body: `${SITE_NAME} supports international entrepreneurs through the UK Innovator Founder route end-to-end: profile assessment, business idea development, market research, business plans and financial models, endorsement applications, interview preparation and the visa application itself.`,
-        },
-        {
-          heading: "How we're different",
-          body: "You don't need a business idea to start. We assess your CV and, where appropriate, suggest up to 2-3 innovative business ideas matched to your experience, then develop the one you choose into a proposition an Endorsing Body can assess.",
-        },
-        {
-          heading: "Regulated support",
-          body: IAA_NOTE,
-        },
-      ]}
-    />
+    <>
+      <PageHero
+        icon={ApartmentRoundedIcon}
+        eyebrow="About us"
+        title="We turn strong profiles into endorsable UK businesses"
+        intro="Most advisers wait for you to bring an idea. We start from your CV."
+      />
+
+      <Container sx={{ py: { xs: 5, md: 7 } }}>
+        <Stack spacing={{ xs: 4, md: 6 }}>
+          <Reveal>
+            <Paper variant="outlined" sx={{ p: { xs: 2.5, md: 3.5 }, borderRadius: 4 }}>
+              <FlowStrip
+                items={[
+                  "Your CV",
+                  "Experience & Skills",
+                  "Business Idea",
+                  "Development",
+                  "Endorsement",
+                  "Visa",
+                ]}
+                highlightLast
+              />
+            </Paper>
+          </Reveal>
+
+          <FeatureCards items={WHAT_WE_DO} />
+
+          <StatTiles
+            items={[
+              { value: "2-3", label: "Business ideas suggested from your profile" },
+              { value: "7", label: "Tracked stages from CV to endorsement decision" },
+              { value: "4 weeks", label: "Preparation roadmap before submission" },
+              { value: "3 years", label: "Potential route to ILR, subject to requirements" },
+            ]}
+          />
+
+          <Reveal>
+            <Box sx={{ textAlign: "center" }}>
+              <Button href="/#free-cv-check" variant="contained" size="large" sx={{ px: 4 }}>
+                Get your free CV check
+              </Button>
+              <Typography sx={{ fontSize: 13, color: "text.secondary", mt: 1.5 }}>
+                Free initial review · No obligation
+              </Typography>
+            </Box>
+          </Reveal>
+        </Stack>
+      </Container>
+    </>
   );
 }

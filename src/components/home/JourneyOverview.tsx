@@ -25,7 +25,7 @@ export default function JourneyOverview() {
         <SectionHeading
           eyebrow="Your journey"
           title="From CV to UK founder in nine steps"
-          subtitle="One connected journey: we stay with you from the first CV review through endorsement, the visa application and beyond."
+          subtitle="From your first CV review to potential settlement, we stay with you."
         />
         <StepLadder steps={STEPS} />
       </Container>

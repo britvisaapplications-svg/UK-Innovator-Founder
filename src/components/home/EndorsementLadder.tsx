@@ -12,43 +12,43 @@ import { gsap, useGSAP } from "@/lib/gsap";
 const STEPS = [
   {
     title: "Share Your CV",
-    desc: "We review your experience, qualifications, skills, sector knowledge and business background.",
+    desc: "We review your experience, qualifications, skills and sector knowledge.",
   },
   {
     title: "Profile Assessment",
-    desc: "We identify the areas where your profile can translate into a credible business proposition.",
+    desc: "We find where your profile becomes a credible business proposition.",
   },
   {
     title: "Suggest Up to 2-3 Innovative Business Ideas",
-    desc: "If needed, we suggest 2-3 concepts based on your profile, or refine your existing idea.",
+    desc: "Concepts matched to your profile, or we refine your existing idea.",
   },
   {
     title: "Choose & Refine the Idea",
-    desc: "Define the problem, customer, solution, innovation, advantage, revenue model and growth potential.",
+    desc: "Problem, customer, solution, innovation, advantage, revenue and growth.",
   },
   {
     title: "Initial Market Research",
-    desc: "Research the target market, competitors, existing solutions, market gaps and commercial opportunity.",
+    desc: "Target market, competitors, existing solutions and market gaps.",
   },
   {
     title: "Business Plan & Financial Model",
-    desc: "Develop the business model, market analysis, revenue strategy, forecasts, scalability and job-creation planning.",
+    desc: "Business model, forecasts, scalability and job-creation planning.",
   },
   {
     title: "Validate the Business",
-    desc: "Depending on package: surveys, LOIs, customer and partner interest, MVP, company formation, website and social presence.",
+    desc: "Surveys, LOIs, MVP, company formation and web presence, by package.",
   },
   {
     title: "Review & Unlimited Revisions",
-    desc: "All packages include unlimited revision rounds until the proposition is ready.",
+    desc: "Unlimited revision rounds until the proposition is ready.",
   },
   {
     title: "Endorsement Application",
-    desc: "We prepare and submit your application to the appropriate Endorsing Body.",
+    desc: "Prepared and submitted to the appropriate Endorsing Body.",
   },
   {
     title: "Interview / Pitch",
-    desc: "Preparation for founder, innovation, market, competition, financial, viability and scalability questions.",
+    desc: "Preparation for innovation, market, financial and scalability questions.",
   },
   {
     title: "Endorsement Decision",
@@ -56,7 +56,7 @@ const STEPS = [
   },
   {
     title: "Visa Application",
-    desc: "We prepare the formal Innovator Founder visa application after endorsement.",
+    desc: "We prepare the formal Innovator Founder visa application.",
   },
 ];
 
