@@ -135,7 +135,7 @@ export default function Hero() {
               }}
             >
               No employer sponsor required. Potential ILR after 3 years. Start with your CV.
-              No business idea yet? We can suggest up to 2-3 based on your profile.
+              Bring your own business idea: we review it, discuss it with you and help you refine it.
             </Typography>
 
             {/* Benefit chips, sweep in left-to-right */}

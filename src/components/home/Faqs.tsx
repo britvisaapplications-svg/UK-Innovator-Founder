@@ -22,11 +22,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "What if I do not have a business idea?",
-    a: "Send your CV. We can assess your background and suggest up to 2-3 innovative business ideas based on your profile.",
-  },
-  {
-    q: "What if I already have an idea?",
-    a: "We can assess, refine and develop your existing concept towards an endorsable proposition.",
+    a: "We strongly suggest you do your own research and come up with an innovative idea. We cannot provide an idea; we can only discuss and refine your idea, and point out potential weaknesses.",
   },
   {
     q: "What does innovative mean?",
@@ -42,11 +38,11 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "How much does endorsement cost?",
-    a: "The Endorsing Body charges an initial fee of £1,000 per person, paid directly to the Endorsing Body. This is separate from our professional fees, which depend on the package you choose.",
+    a: "The Endorsing Body charges an initial fee of £1,000 plus VAT per person, paid directly to the Endorsing Body. This is separate from our professional fees, which depend on the package you choose.",
   },
   {
     q: "How long does endorsement take?",
-    a: "Around 4-8 weeks is a useful planning range, but processing time sits with the Endorsing Body and is not guaranteed.",
+    a: "Around 4-8 weeks is a useful planning range once a complete application is submitted, but processing time sits with the Endorsing Body and is not guaranteed. The Home Office visa decision is separate: usually within 3 weeks from outside the UK, or 8 weeks from inside.",
   },
   {
     q: "How long is the endorsement letter valid?",
@@ -74,7 +70,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "Do I have to meet my Endorsing Body after the visa is granted?",
-    a: "Yes. Mandatory contact-point meetings take place around months 12 and 24 (£500 per meeting, paid directly to the Endorsing Body).",
+    a: "Yes. Mandatory contact-point meetings take place around months 12 and 24 (£500 plus VAT per meeting, paid directly to the Endorsing Body).",
   },
   {
     q: "Can I pay professional fees in instalments?",
@@ -83,7 +79,7 @@ const FAQS: { q: string; a: string }[] = [
 ];
 
 /**
- * §16, FAQs: all seventeen from the brief. Seventeen in one column reads as
+ * §16, FAQs. Sixteen in one column reads as
  * a wall, so they run in two masonry-style columns on desktop, splitting
  * down the middle rather than alternating, so reading order stays top to
  * bottom in each column.

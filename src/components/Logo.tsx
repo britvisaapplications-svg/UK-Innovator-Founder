@@ -67,7 +67,7 @@ export default function Logo({
               display: { xs: "none", sm: "block" },
             }}
           >
-            Your business idea could start with your CV
+            Your idea, refined for endorsement
           </Box>
         )}
       </Box>

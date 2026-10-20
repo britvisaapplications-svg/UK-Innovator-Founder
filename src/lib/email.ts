@@ -148,7 +148,7 @@ export function leadConfirmationEmail(lead: LeadEmailInput): { subject: string; 
     [
       "We prepare your free assessment",
       needsIdeas
-        ? "Because you told us you don't have a business idea yet, we also look at where your experience could support up to 2-3 credible business ideas."
+        ? "You told us you don't have a business idea yet. We can't provide one, so we strongly suggest you research and develop your own innovative idea; once you have it, we'll discuss it with you, point out potential weaknesses and help you refine it."
         : "We consider how your existing business idea could be developed into a proposition an Endorsing Body can assess.",
     ],
     [
@@ -205,7 +205,7 @@ export function leadAdminEmail(lead: LeadEmailInput): { subject: string; html: s
       ${row("Email", `<a href="mailto:${lead.email}" style="color:#d61f30;">${lead.email}</a>`)}
       ${row("WhatsApp / Phone", lead.phone || "(not given)")}
       ${row("Country", lead.country || "(not given)")}
-      ${row("Business idea", lead.hasIdea === "yes" ? "Has an idea" : lead.hasIdea === "no" ? "Needs idea suggestions" : "(not answered)")}
+      ${row("Business idea", lead.hasIdea === "yes" ? "Has an idea" : lead.hasIdea === "no" ? "No idea yet" : "(not answered)")}
       ${row("Investment budget", lead.investmentBudget || "(not given)")}
       ${row("CV", lead.cvFileName ? `Attached: ${lead.cvFileName}` : "Not uploaded")}
     </table>

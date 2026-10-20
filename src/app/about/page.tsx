@@ -19,8 +19,8 @@ export const metadata: Metadata = { title: "About Us" };
 const WHAT_WE_DO = [
   {
     icon: LightbulbRoundedIcon,
-    title: "Ideas from your CV",
-    desc: "No business idea? We suggest up to 2-3 matched to your experience.",
+    title: "Your idea, refined",
+    desc: "We review and discuss your own business idea and highlight potential weaknesses.",
   },
   {
     icon: RouteRoundedIcon,
@@ -40,8 +40,8 @@ export default function AboutPage() {
       <PageHero
         icon={ApartmentRoundedIcon}
         eyebrow="About us"
-        title="We turn strong profiles into endorsable UK businesses"
-        intro="Most advisers wait for you to bring an idea. We start from your CV."
+        title="We help founders make their own ideas endorsable"
+        intro="You bring the idea. We review it against your profile, discuss it with you and help you refine it."
       />
 
       <Container sx={{ py: { xs: 5, md: 7 } }}>
@@ -51,8 +51,8 @@ export default function AboutPage() {
               <FlowStrip
                 items={[
                   "Your CV",
-                  "Experience & Skills",
-                  "Business Idea",
+                  "Your Business Idea",
+                  "Review & Refinement",
                   "Development",
                   "Endorsement",
                   "Visa",
@@ -66,9 +66,9 @@ export default function AboutPage() {
 
           <StatTiles
             items={[
-              { value: "2-3", label: "Business ideas suggested from your profile" },
+              { value: "2-3", label: "Of your own ideas discussed against your profile" },
               { value: "7", label: "Tracked stages from CV to endorsement decision" },
-              { value: "4 weeks", label: "Preparation roadmap before submission" },
+              { value: "3-6 months", label: "Typical time from first review to visa decision" },
               { value: "3 years", label: "Potential route to ILR, subject to requirements" },
             ]}
           />

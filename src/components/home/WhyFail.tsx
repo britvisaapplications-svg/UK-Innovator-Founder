@@ -21,7 +21,7 @@ const PAIRS: { fail: string; fix: string }[] = [
   },
   {
     fail: "Weak link between founder and business",
-    fix: "The concept is built around your background and track record.",
+    fix: "We test how well your idea fits your background and track record.",
   },
   {
     fail: "Weak market research",

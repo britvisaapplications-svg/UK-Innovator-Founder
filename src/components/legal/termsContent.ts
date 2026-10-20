@@ -129,7 +129,7 @@ export const TERMS: LegalSection[] = [
     blocks: [
       { type: "p", text: `These Terms and Conditions apply only to the UK Innovator Founder route, including, where applicable:` },
       { type: "ul", items: [
-        `profile assessment and business idea development;`,
+        `profile assessment, and review, discussion and refinement of the client's own business idea (we do not supply business ideas);`,
         `market research, business plans and financial models;`,
         `validation work such as surveys, letters of intent and minimum viable products, depending on the package selected;`,
         `preparation and submission of endorsement applications to an approved Endorsing Body;`,

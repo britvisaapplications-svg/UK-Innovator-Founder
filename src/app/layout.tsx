@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   description:
-    "UK Innovator Founder Visa support: no employer sponsor required, potential ILR after 3 years. Start with a free CV & profile check; if you don't have a business idea, we can suggest up to 2-3 based on your profile.",
+    "UK Innovator Founder Visa support: no employer sponsor required, potential ILR after 3 years. Start with a free CV & profile check; we review, discuss and help you refine your own business idea.",
 };
 
 export default function RootLayout({

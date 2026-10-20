@@ -8,7 +8,10 @@ import Typography from "@mui/material/Typography";
 import ArrowDownwardRoundedIcon from "@mui/icons-material/ArrowDownwardRounded";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 import GavelRoundedIcon from "@mui/icons-material/GavelRounded";
-import LightbulbRoundedIcon from "@mui/icons-material/LightbulbRounded";
+import ForumRoundedIcon from "@mui/icons-material/ForumRounded";
+import ReportProblemRoundedIcon from "@mui/icons-material/ReportProblemRounded";
+import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
+import type { SvgIconComponent } from "@mui/icons-material";
 import Reveal from "@/components/Reveal";
 import SectionHeading from "@/components/home/SectionHeading";
 import { IAA_NOTE } from "@/lib/site";
@@ -40,7 +43,7 @@ function CvSheet() {
           <Box sx={{ height: 5, borderRadius: 1, bgcolor: "divider", width: "45%" }} />
         </Stack>
       </Stack>
-      {/* Body lines. Two are crimson: the experience we build the idea from. */}
+      {/* Body lines. Two are crimson: the parts of your idea we test first. */}
       <Stack spacing={0.9}>
         {CV_LINES.map((w, i) => (
           <Box
@@ -58,8 +61,18 @@ function CvSheet() {
   );
 }
 
-/** One suggested idea. The three are tilted slightly so they read as a set. */
-function IdeaCard({ n, tilt, label }: { n: number; tilt: number; label: string }) {
+/** One thing you get back. The three are tilted slightly so they read as a set. */
+function OutcomeCard({
+  icon: Icon,
+  tilt,
+  kicker,
+  label,
+}: {
+  icon: SvgIconComponent;
+  tilt: number;
+  kicker: string;
+  label: string;
+}) {
   return (
     <Paper
       className="lift-card"
@@ -84,13 +97,13 @@ function IdeaCard({ n, tilt, label }: { n: number; tilt: number; label: string }
           bgcolor: "#fbeaec",
         }}
       >
-        <LightbulbRoundedIcon sx={{ fontSize: 19, color: "primary.main" }} />
+        <Icon sx={{ fontSize: 19, color: "primary.main" }} />
       </Box>
       <Box>
         <Typography
           sx={{ fontFamily: "var(--font-geist-mono)", fontSize: 11, fontWeight: 800, color: "primary.main" }}
         >
-          IDEA {String(n).padStart(2, "0")}
+          {kicker}
         </Typography>
         <Typography sx={{ fontSize: 14, fontWeight: 700, lineHeight: 1.3 }}>
           {label}
@@ -103,8 +116,9 @@ function IdeaCard({ n, tilt, label }: { n: number; tilt: number; label: string }
 /**
  * §12, why our approach is different.
  *
- * The claim is that a CV is enough to start, so it is drawn rather than
- * described: the CV you send, an arrow, and the ideas that come back.
+ * Compliance: we never supply business ideas. The idea is always the
+ * client's own; we discuss it, flag weaknesses and help refine it. Drawn
+ * rather than described: what you send, an arrow, what comes back.
  */
 export default function WhyDifferent() {
   return (
@@ -112,8 +126,8 @@ export default function WhyDifferent() {
       <Container>
         <SectionHeading
           eyebrow="Why we're different"
-          title="You don't need a business idea to start"
-          subtitle="Most advisers wait for your idea. We start from your CV."
+          title="Your idea, tested and refined"
+          subtitle="Endorsing Bodies expect you to own and defend your idea. We help you find its weak spots and sharpen it."
         />
 
         <Reveal>
@@ -137,7 +151,7 @@ export default function WhyDifferent() {
                 <Typography
                   sx={{ mt: 2, fontSize: 12.5, fontWeight: 800, letterSpacing: 1, textTransform: "uppercase", color: "text.secondary" }}
                 >
-                  You send this
+                  Your CV + your idea
                 </Typography>
               </Stack>
 
@@ -161,32 +175,41 @@ export default function WhyDifferent() {
                 <Typography
                   sx={{ mt: 1.5, fontSize: 13.5, color: "text.secondary", textAlign: "center", maxWidth: 160 }}
                 >
-                  We assess your experience and skills
+                  We discuss it against your profile
                 </Typography>
               </Stack>
 
               {/* What comes back */}
               <Stack sx={{ alignItems: "center", width: { xs: "100%", sm: "auto" } }}>
                 <Stack spacing={1.25} sx={{ width: { xs: "100%", sm: 300 } }}>
-                  <IdeaCard n={1} tilt={-1.5} label="Matched to your sector" />
-                  <IdeaCard n={2} tilt={0.75} label="Built on your experience" />
-                  <IdeaCard n={3} tilt={-0.5} label="Backed by market need" />
+                  <OutcomeCard icon={ForumRoundedIcon} tilt={-1.5} kicker="DISCUSSED" label="Your idea talked through with you" />
+                  <OutcomeCard icon={ReportProblemRoundedIcon} tilt={0.75} kicker="CHALLENGED" label="Potential weaknesses identified" />
+                  <OutcomeCard icon={TuneRoundedIcon} tilt={-0.5} kicker="REFINED" label="Sharpened for the Endorsing Body" />
                 </Stack>
                 <Typography
                   sx={{ mt: 2, fontSize: 12.5, fontWeight: 800, letterSpacing: 1, textTransform: "uppercase", color: "primary.main" }}
                 >
-                  We send these back
+                  What you get back
                 </Typography>
               </Stack>
             </Stack>
           </Paper>
         </Reveal>
 
+        <Reveal delay={60}>
+          <Typography
+            sx={{ mt: 3, fontSize: 15, fontWeight: 700, textAlign: "center", maxWidth: 640, mx: "auto" }}
+          >
+            We do not supply business ideas. Do your own research and bring an innovative idea;
+            we will discuss it with you and help you refine it.
+          </Typography>
+        </Reveal>
+
         <Reveal delay={100}>
           <Stack
             direction="row"
             spacing={1.25}
-            sx={{ alignItems: "center", justifyContent: "center", mt: 3 }}
+            sx={{ alignItems: "center", justifyContent: "center", mt: 1.5 }}
           >
             <GavelRoundedIcon sx={{ fontSize: 18, color: "primary.main", flexShrink: 0 }} />
             <Typography sx={{ fontSize: 13.5, color: "text.secondary", textAlign: "center" }}>

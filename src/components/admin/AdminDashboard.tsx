@@ -228,7 +228,7 @@ function LeadCard({ lead, onChanged }: { lead: Lead; onChanged: () => void }) {
             {lead.hasIdea && (
               <Chip
                 size="small"
-                label={lead.hasIdea === "yes" ? "Has a business idea" : "Needs idea suggestions"}
+                label={lead.hasIdea === "yes" ? "Has a business idea" : "No idea yet"}
                 color={lead.hasIdea === "yes" ? "success" : "info"}
                 variant="outlined"
                 sx={{ height: 22 }}

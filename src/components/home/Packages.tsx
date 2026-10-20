@@ -30,9 +30,9 @@ const PACKAGES: Pkg[] = [
     name: "Basic",
     price: "£2,500–£3,000",
     included: [
-      "Innovative idea development if needed",
-      "Up to 2-3 business concepts",
-      "Idea refinement",
+      "Up to 2-3 of your business ideas discussed against your profile",
+      "Potential weaknesses identified",
+      "Refinement of your chosen idea",
       "Initial market research",
       "Standard business plan",
       "Basic financial model",

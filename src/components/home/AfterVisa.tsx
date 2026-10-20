@@ -49,11 +49,11 @@ const MARKERS: {
  */
 export default function AfterVisa() {
   return (
-    <Box component="section" sx={{ py: { xs: 6, md: 9 }, bgcolor: "#fff" }}>
+    <Box id="three-year-journey" component="section" sx={{ py: { xs: 6, md: 9 }, bgcolor: "#fff", scrollMarginTop: 96 }}>
       <Container>
         <SectionHeading
-          eyebrow="After the visa"
-          title="The three-year journey to potential ILR"
+          eyebrow="Three-Year Journey"
+          title="After the visa: three years to potential ILR"
           subtitle="Three qualifying years can potentially lead to ILR, subject to requirements."
         />
 

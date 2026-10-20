@@ -13,8 +13,8 @@ import Reveal from "@/components/Reveal";
 import SectionHeading from "@/components/home/SectionHeading";
 
 const STAGE_1 = [
-  "Idea",
-  "Development",
+  "Your Idea",
+  "Refinement",
   "Business Plan",
   "Market Research",
   "Financial Model",

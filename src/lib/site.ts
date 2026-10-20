@@ -8,7 +8,7 @@
  */
 
 export const SITE_NAME = "UK Innovator Founder";
-export const SITE_TAGLINE = "Your business idea could start with your CV";
+export const SITE_TAGLINE = "Your idea, refined for endorsement";
 export const SUPPORT_EMAIL = "info@ukinnovatorfounder.uk"; // TBC with client
 export const SUPPORT_PHONE = "+44 7776 668557"; // firm number, from eVisaPortal
 
@@ -54,7 +54,7 @@ export const UTILITY_LINKS = [
  */
 export const SECTION_TILES = [
   { label: "What Is It?", id: "what-is-it", color: "#3b5bab" },
-  { label: "Benefits", id: "benefits", color: "#3d8b6e" },
+  { label: "Three-Year Journey", id: "three-year-journey", color: "#3d8b6e" },
   { label: "Eligibility", id: "eligibility", color: "#cf9c2f" },
   { label: "Endorsement Process", id: "endorsement-process", color: "#7d55b8" },
   { label: "Timeline", id: "timeline", color: "#d96f45" },
