@@ -105,12 +105,15 @@ export async function POST(req: NextRequest) {
 
   const adminTo = process.env.ADMIN_EMAIL?.trim();
   if (adminTo) {
-    const { subject, html } = leadAdminEmail(emailInput);
+    const { subject, html, text } = leadAdminEmail(emailInput);
     sends.push(
       sendEmail({
         to: adminTo,
         subject,
         html,
+        text,
+        // Replying to the notification answers the applicant directly.
+        replyTo: email,
         attachments:
           cvBuffer && cvFileName
             ? [{ filename: cvFileName, content: cvBuffer.toString("base64") }]
@@ -120,8 +123,9 @@ export async function POST(req: NextRequest) {
   }
 
   {
-    const { subject, html } = leadConfirmationEmail(emailInput);
-    sends.push(sendEmail({ to: email, subject, html }));
+    // Replies go to the firm (EMAIL_REPLY_TO, falling back to ADMIN_EMAIL).
+    const { subject, html, text } = leadConfirmationEmail(emailInput);
+    sends.push(sendEmail({ to: email, subject, html, text }));
   }
 
   await Promise.allSettled(sends);

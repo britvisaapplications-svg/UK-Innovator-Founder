@@ -52,11 +52,11 @@ export async function POST(req: NextRequest) {
     // Welcome email with the tracking number; never blocks case creation.
     let emailed: boolean | undefined;
     if (process.env.CASE_EMAIL_ON_UPDATE !== "off") {
-      const { subject, html } = caseOpenedEmail({
+      const { subject, html, text } = caseOpenedEmail({
         clientName: created.clientName,
         trackingRef: created.trackingRef,
       });
-      const r = await sendEmail({ to: created.email, subject, html });
+      const r = await sendEmail({ to: created.email, subject, html, text });
       emailed = r.ok && !r.skipped;
     }
 

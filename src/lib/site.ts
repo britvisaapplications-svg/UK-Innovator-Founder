@@ -9,7 +9,13 @@
 
 export const SITE_NAME = "UK Innovator Founder";
 export const SITE_TAGLINE = "Your idea, refined for endorsement";
-export const SUPPORT_EMAIL = "info@ukinnovatorfounder.uk"; // TBC with client
+/**
+ * Shown publicly on the site and in every email footer. This is the firm's
+ * own inbox, not an address on the site's domain: 3year-ilr.uk is set up in
+ * Resend for *sending* only, and ukinnovatorfounder.uk is not a domain the
+ * firm holds at all, so mail to either would bounce.
+ */
+export const SUPPORT_EMAIL = "info@shamsbvlawyers.com";
 export const SUPPORT_PHONE = "+44 7776 668557"; // firm number, from eVisaPortal
 
 /** WhatsApp contact (digits only), same firm number as eVisaPortal. */

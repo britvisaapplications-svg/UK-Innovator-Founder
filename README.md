@@ -53,9 +53,43 @@ The Turso DB exists: https://app.turso.tech/britvisa/databases/uk-innovator-foun
 |---|---|
 | `AUTH_SECRET` | HMAC key for admin session cookies (`openssl rand -hex 32`) |
 | `BLOB_READ_WRITE_TOKEN` | Vercel Blob store for private CV uploads (leads still save without it) |
-| `RESEND_API_KEY` / `EMAIL_FROM` | Stage-update emails to clients (skipped when unset) |
+| `RESEND_API_KEY` | Resend API key. Without it every send is skipped and logged |
+| `EMAIL_FROM` | `UK Innovator Founder <updates@3year-ilr.uk>` — the Resend-verified domain |
+| `ADMIN_EMAIL` | `info@shamsbvlawyers.com` — where new CV leads land |
+| `EMAIL_REPLY_TO` | `info@shamsbvlawyers.com` — where a client's reply goes. Defaults to `ADMIN_EMAIL` |
+| `EMAIL_OVERRIDE_TO` | Testing only. Redirects **all** outgoing mail here. Must be empty in production |
 | `NEXT_PUBLIC_SITE_URL` | Absolute URL used in emails |
 | `CASE_EMAIL_ON_UPDATE` | Set `off` to suppress automatic stage emails |
+
+## The emails
+
+Four messages, all in `lib/email.ts`: the lead confirmation and admin
+notification from the Free CV & Profile Check, plus case-opened and
+case-progress from the back office. All four now go through the same shell,
+so every one arrives with the ink header, crimson rule and regulatory
+footer. `caseProgressEmail` used to build its own markup and was the odd one
+out.
+
+```bash
+npm run email:preview   # renders all six fixtures to .email-preview/, sends nothing
+```
+
+Things that are load-bearing, not cosmetic:
+
+- **Everything a person typed goes through `esc()`.** This file used to
+  interpolate names, emails, countries and client names straight into the
+  markup. An ampersand corrupted the message and a name containing a tag
+  would have reached the adviser's inbox as live HTML.
+- **`firstNameOf()` strips titles before greeting anyone.** "Dr Amara
+  Okonkwo" otherwise produced "Thank you, Dr". It gives up rather than guess
+  when what is left is an initial.
+- **`table-layout: fixed` plus `word-break`** on the content cells. A long
+  unbroken string otherwise stretches the 600px frame past the viewport.
+- Every message carries a **plain-text part** and a deliberate **preheader**.
+- ⚠️ **The compliance wording in `leadSteps()` must not be softened.** Where
+  someone says they have no business idea, the only thing we may say is that
+  they must develop their own and that we will then review, discuss and help
+  refine it. We never offer to supply, suggest or match an idea.
 
 ## How the case tracker model works
 

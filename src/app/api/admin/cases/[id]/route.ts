@@ -63,13 +63,13 @@ export async function PATCH(
     let emailed: boolean | undefined;
     const notify = process.env.CASE_EMAIL_ON_UPDATE !== "off";
     if (notify && updated.email) {
-      const { subject, html } = caseProgressEmail({
+      const { subject, html, text } = caseProgressEmail({
         clientName: updated.clientName,
         trackingRef: updated.trackingRef,
         caseStage: updated.caseStage,
         stage5Outcome: updated.stage5Outcome as Stage5Outcome | null,
       });
-      const r = await sendEmail({ to: updated.email, subject, html });
+      const r = await sendEmail({ to: updated.email, subject, html, text });
       emailed = r.ok && !r.skipped;
     }
     return NextResponse.json({
